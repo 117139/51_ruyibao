@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <title>登录</title>
+  <script type="text/javascript" src="./script/api.js"></script>
+  <script src="./script/jquery.min.js"></script>
+  <script src="./script/vue.min.js"></script>
+  <script type="text/javascript" src="./script/IPurl.js"></script>
+  <script src="./script/jump.js"></script>
+  <script src="./script/layer/mobile/layer.js"></script>
+  <!-- <script src="./../script/font/iconfont.js"></script> -->
+
+  <link rel="stylesheet" type="text/css" href="./css/api.css" />
+  <link rel="stylesheet" type="text/css" href="./css/swiper.min.css" />
+  <link rel="stylesheet" type="text/css" href="./css/style.css" />
+  <link rel="stylesheet" type="text/css" href="./css/class.css" />
+  <style>
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background-color: #fff;
+    }
+
+    .mybg {
+      width: 100%;
+      min-height: 100vh;
+      background-color: #fff;
+      background-image: url(./image/login_img.jpg);
+      -webkit-background-size: 100% auto;
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+    }
+
+    .iconnext-copy {
+      width: 15px;
+      height: 15px;
+      color: #999;
+    }
+
+    /* 旧 */
+    .logo {
+      height: 270px;
+      justify-content: center;
+      -ms-align-items: center;
+      align-items: center;
+    }
+
+    .logo img {
+      width: 102px;
+      /*height: 105px;*/
+      /*border-radius: 8px;*/
+      /*overflow: hidden;*/
+    }
+
+    .loginWarpper {
+      width: 100%;
+
+
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      /*box-shadow: 2px 2px 15px #9e9e9e;*/
+    }
+
+    .loginBox {
+      width: 100%;
+      /* background: #fff; */
+      padding: 15px;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      /* box-shadow: 0px 10px 29px 1px rgba(0, 0, 0, 0.05); */
+      border-radius: 10px;
+      /* margin-bottom: 30px; */
+    }
+
+    .loginIcon {
+      text-align: center;
+      width: 40px;
+      position: absolute;
+      right: 0;
+    }
+    .loginIcon_l{
+      right: auto;
+      left: 0;
+     
+    }
+    .loginIcon_l i{
+      font-size: 18px;
+      color: #444444;
+    }
+		.login_name{
+			width: 4em;
+			padding-left: 40px;
+			display: none;
+		}
+    .loginList {
+      /*border-radius: 20px;*/
+      border-bottom: 1px solid #dbdbdb;
+      height: 40px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .loginList input {
+      width: 100%;
+      height: 100%;
+
+      padding-left: 40px;
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+    }
+
+    .loginList input:focus {
+      /* border-bottom: 2px solid #F5C531; */
+    }
+
+    .loginList input:focus+button {
+      /* border-bottom: 2px solid #F5C531; */
+    }
+
+    .loginBtn button {
+      margin-top: 40px;
+      background: #3497FA;
+      box-shadow:0px 3px 7px 0px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      width: 100%;
+      height: 45px;
+      font-size: 17px;
+      color: #fff;
+    }
+
+
+    .getCode {
+			width:90px;
+			height:25px;
+			background:rgba(52,151,250,1);
+			border-radius:24px;
+      font-size: 12px;
+			position: relative;
+			margin-top: 7px;
+      /*padding: 0 10px;*/
+      /*border-left: 1px solid #ddd;*/
+    }
+
+    .getCode button {
+      width: 100%;
+      height: 24px;
+      line-height: 24px;
+      color: #fff;
+      text-align: center;
+      position: absolute;
+			left: 0;
+      right: 0;
+    }
+
+    .yzm {
+      width: 100px;
+    }
+
+    .iconfont {
+      font-size: 16px;
+      color: #9D2932;
+    }
+
+    .zhifubao {
+      font-size: 16px;
+      color: #07a0f8;
+    }
+
+    .zftype {
+      width: 100%;
+      height: 70px;
+      border-top: 1px solid #eeeeee;
+      padding: 25px 0;
+      display: flex;
+      display: -webkit-flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-bottom: 14px;
+
+    }
+
+    .zftype1 {
+      width: 100%;
+      display: flex;
+      display: -webkit-flex;
+      justify-content: space-between;
+      -ms-align-items: center;
+      align-items: center;
+      font-size: 16px;
+    }
+
+    .duigouG {
+      border: 1px solid #999999;
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      justify-content: center;
+      -ms-align-items: center;
+      align-items: center;
+      margin-right: 5px;
+    }
+
+    .duigouG.cur1 {
+      border: 1px solid #ffa903;
+      background-color: #ffa903;
+    }
+
+    .duigou {
+      font-size: 10px;
+      color: #fff;
+    }
+
+    .yhxy {
+      margin-top: 40px;
+      justify-content: center;
+      -ms-align-items: center;
+      align-items: center;
+    }
+
+    .fr {
+      float: right;
+    }
+
+    /* 旧 end */
+    .login_main {
+      padding: 220px 22px 22px;
+    }
+
+    .loginTab {
+      font-size: 16px;
+      color: #666666;
+      margin-bottom: 24px;
+    }
+
+    .loginTab>div+div {
+      margin-left: 25px;
+    }
+
+    .loginTab .active {
+      font-size: 18px;
+      color: #444444;
+      position: relative;
+    }
+
+    .loginTab .active span {
+      position: relative;
+      z-index: 2;
+    }
+
+    .loginTab .active::before {
+      z-index: 1;
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+			margin-left: -20px;
+      content: '';
+			 width:40px;
+			 height:4px;
+			 background:rgba(52,151,250,1);
+    }
+
+    .int_tip {
+      font-size: 11px;
+      color: rgba(62, 74, 89, .7);
+      padding-left: 12px;
+    }
+
+    .c3497FA {
+      color: #3497FA;
+    }
+
+   
+  </style>
+</head>
+
+<body>
+  <div class="mybg" id="app">
+    <div class="back_warppw flex" id="header">
+      <div class="back fz16 cf" tapmode onclick="api.closeWin();">
+        <!-- <i class="iconfont iconnext-copy"></i>返回 -->
+      </div>
+      <div class="flex_1 tac fz16 c3 lh44" id="title">
+        <!-- 填写订单 -->
+      </div>
+      <div class="back_right fz16 c3 fb lh44">
+
+      </div>
+    </div>
+    <div class="login_main boxsiz">
+      <div class="login_box  boxsiz">
+        <div class="loginWarpper ">
+
+          <div class="loginBox ">
+            <div v-if="isLogin!=0" class="loginTab flex tac lh40">
+              <div class="" :class="{'active' : isLogin==1}" tapmode @click="gologin(1)"><span>账号登录</span></div>
+              <div class="" :class="{'active' : isLogin == 11}" tapmode @click="gologin(11)"><span>验证码登录</span></div>
+            </div>
+            <!-- <div class="int_tip">手机号：</div> -->
+            <div class="loginList mb10">
+              <div class="flex lh40">
+                <div class="loginIcon loginIcon_l"> <i  class="iconfont iconshouji"></i></div>
+								<div class="login_name">账号</div>
+                <div class="flex_1 fz14 c3">
+                  <input type="number" placeholder="请输入手机号" v-model="usertel">
+                </div>
+              </div>
+            </div>
+            <!-- 验证码 -->
+            <!-- <div class="int_tip" v-if="isLogin==0||isLogin==11">验证码：</div> -->
+            <div class="loginList mb10" v-if="isLogin==0||isLogin==11">
+              <div class="flex lh40">
+								<div class="loginIcon loginIcon_l"> <i  class="iconfont iconsuo"></i></div>
+								<div class="login_name">验证码</div>
+                <div class="flex_1 fz14 c3">
+                  <input class="yzm" type="text" placeholder="请输入验证码" v-model="usercode">
+                </div>
+                <div class="getCode">
+                  <button v-if='setstate==0'  type="button" onclick="getcode()">获取验证码</button>
+                  <button v-if='setstate==1' type="button" v-html="time+'s后重新获取'"></button>
+                </div>
+              </div>
+            </div>
+            <!--  -->
+            <!-- <div class="int_tip" v-if="isLogin!=11">密码：</div> -->
+            <div class="loginList mb10" v-if="isLogin!=11">
+              <div class="flex  lh40">
+                <div class="loginIcon loginIcon_l"> <i  class="iconfont iconsuo"></i></div>
+								<div class="login_name">密码</div>
+                <div class="flex_1 fz14 c3">
+                  <input v-show="showmm" type="password" maxlength="18" placeholder="请输入密码" v-model="userpassword">
+                  <input v-show="!showmm" type="text" maxlength="18" placeholder="请输入密码" v-model="userpassword">
+                </div>
+                <div class="loginIcon" @click="showmmkg()">
+                  <!-- <span class="icon iconfont fz16 c9">&#xe607;</span> -->
+                  <i v-show="showmm" class="iconfont icon-yanjing1"></i>
+                  <!-- <span class="icon iconfont fz16 c9">&#xe607;</span> -->
+                  <i v-show="!showmm" class="iconfont icon-yanjing"></i>
+                </div>
+              </div>
+            </div>
+            <!-- 重复密码 -->
+            <!-- <div class="int_tip" v-if="isLogin==0">重复密码：</div> -->
+            <div class="loginList" v-if="isLogin==0">
+              <div class="flex  lh40">
+                <div class="loginIcon loginIcon_l"> <i  class="iconfont iconsuo"></i></div>
+								<div class="login_name">重复密码</div>
+                <div class="flex_1 fz14 c3">
+                  <input v-show="showmm1" type="password" maxlength="18" placeholder="请再次输入密码" v-model="userpassword1">
+                  <input v-show="!showmm1" type="text" maxlength="18" placeholder="请再次输入密码" v-model="userpassword1">
+                </div>
+                <div class="loginIcon" @click="showmmkg1()">
+                  <!-- <span class="icon iconfont fz16 c9">&#xe607;</span> -->
+                  <i v-show="showmm1" class="iconfont icon-yanjing1"></i>
+                  <!-- <span class="icon iconfont fz16 c9">&#xe607;</span> -->
+                  <i v-show="!showmm1" class="iconfont icon-yanjing"></i>
+                </div>
+              </div>
+            </div>
+
+            <!--  -->
+            <div class="flex lh40 w100 disflex">
+
+              <div class="flex_1 fz14 c3497FA" v-if="isLogin==0"  @click="gologin(1)">已有账号去登录</div>
+              <div class="flex_1 fz14 c3497FA" v-if="isLogin!=0"  @click="gologin(0)">马上注册</div>
+              <div class="c9 fz14" v-if="isLogin!=0" onclick="jump('my_psd.html')">忘记密码</div>
+              <!-- <div v-if="!isLogin" class="cb fz14">已有账号去</div>
+              <div v-if="!isLogin" class="fz14" style="color: #9D2932;" @click="gologin(1)">登录?</div>
+              <div v-if="!isLogin" class="fz14 flex_1 tar" style="color: #9D2932;" @click="open('xieyi')">阅读注册协议</div> -->
+            </div>
+          </div>
+          <div class="loginBtn">
+            <button type="button" tapmode onclick="submit()">{{isLogin==0? '注册' : '登录'}}</button>
+          </div>
+          <!--  -->
+          <!-- <div class="flex yhxy fz14" v-if="isLogin==0" @click="select()">
+            <div class="duigouG disflex lh40" :class="{'cur1':zftype==1}">
+              <i v-show="zftype==1" class="iconfont icon-duigou duigou"></i>
+            </div>我已阅读并同意
+            <span class="fz14" style="color: #FFC900;" onclick="jump('yhxy')">用户协议，</span>
+            <span class="fz14" style="color: #FFC900;" onclick="jump('yhxy')">隐私政策</span>
+          </div> -->
+         
+          
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+
+  //wxlogin
+  function wxlogin() {
+    var wx = api.require('wx');
+    wx.isInstalled(function (ret, err) {
+      if (ret.installed) {
+        // alert("当前设备已安装微信客户端");
+        wx.auth({
+          apiKey: ''
+        }, function (ret, err) {
+          if (ret.status) {
+            alert(JSON.stringify(ret));
+          } else {
+            alert(err.code);
+          }
+        });
+      } else {
+        alert('当前设备未安装微信客户端');
+      }
+    });
+  }
+  function showmmkg() {
+    var kg = vm.showmm
+    vm.showmm = !kg
+  }
+  function showmmkg1() {
+    vm.showmm1 = !vm.showmm1
+  }
+  function openedit(type) {
+    vm.type = type
+    api.sendEvent({
+      name: 'logintype',
+      extra: { type: type }
+    });
+  }
+  var vm = new Vue({
+    el: "#app",
+    data: {
+      zftype: 0,
+      showmm: true,
+      showmm1: true,
+      isLogin: 1,
+      usertel: '', // 用户名
+      usercode: '', // yzm
+      userpassword: '', //密码
+      userpassword1: '', //密码1
+      code_msg: '',    //返回的验证码
+      setstate: 0,
+      time: 60
+    },
+    methods: {
+      select() {
+        // if(this.zftype!=num){
+        this.zftype = !this.zftype
+        // } 
+        console.log(this.zftype)
+      },
+      gologin(type) {
+        vm.isLogin = type
+      }
+    }
+  });
+
+  
+  function getcode() {
+    if (!(/^1\d{10}$/.test(vm.usertel))) {
+      alert('手机号格式不正确');
+    } else {
+      console.log(IPurl + '/admin/sendSms')
+      $.ajax({
+        type: "POST",
+        url: IPurl + '/admin/sendSms',
+        data: {
+          'phone': vm.usertel,
+        },
+        dataType: 'json',
+        success: function (res) {
+
+          if (typeof res == "string") {
+            res = JSON.parse(res);
+          }
+          if (res.code == 200) {
+            console.log(JSON.stringify(res))
+            vm.code_msg = res.msg
+            api.toast({
+              msg: '发送成功',
+              duration: 1000,
+              location: 'middle'
+            });
+            getcodeTime()
+          } else {
+            if (res.msg) {
+              api.toast({
+                msg: res.msg,
+                duration: 1000,
+                location: 'middle'
+              });
+            } else {
+              api.toast({
+                msg: '操作失败',
+                duration: 1000,
+                location: 'middle'
+              });
+            }
+
+          }
+
+        },
+        error: function (err) {
+          api.hideProgress();
+          console.log("banner:" + JSON.stringify(err));
+        }
+      });
+      /*api.ajax({
+        url: IPurl + '/admin/sendSms',
+        method: 'post',
+        // timeout: 2000,
+        dataType: 'json',
+        returnAll: false,
+        data: {
+          values: {
+            'phone': vm.usertel,
+          },
+        }
+      }, function (ret, err) {
+        if (ret) {
+          if (ret.code == 200) {
+            console.log(JSON.stringify(ret))
+            vm.code_msg = ret.msg
+            api.toast({
+              msg: '发送成功',
+              duration: 1000,
+              location: 'middle'
+            });
+            getcodeTime()
+          } else {
+            if (ret.msg) {
+              api.toast({
+                msg: ret.msg,
+                duration: 1000,
+                location: 'middle'
+              });
+            } else {
+              api.toast({
+                msg: '操作失败',
+                duration: 1000,
+                location: 'middle'
+              });
+            }
+
+          }
+          // vm.ret = ret;
+        } else {
+          console.log(JSON.stringify(err));
+        }
+      })*/
+    }
+  }
+  function getcodeTime() {
+    // alert('获取验证码')
+    let time = 59
+    let st = setInterval(function () {
+      if (time == 0) {
+
+        vm.setstate = 0
+        clearInterval(st);
+      } else {
+        let news = time--;
+        console.log(news)
+        vm.setstate = 1
+        vm.time = news
+
+      }
+    }, 1000);
+  }
+  function submit() {
+    //登录界面
+    //api.sendEvent广播登录成功事件
+    if (vm.usertel == '' || !(/^1\d{10}$/.test(vm.usertel))) {
+      // alert("手机号码有误")
+      layer.open({
+        content: '手机号码有误'
+        ,skin: 'msg'
+        ,time: 2 //2秒后自动关闭
+      });
+      return
+    }
+    if (vm.usercode == '' && vm.isLogin == 0 || vm.usercode == '' && vm.isLogin == 11) {
+      // alert("请输入验证码")
+      api.toast({
+        msg: '请输入验证码',
+        duration: 1000,
+        location: 'middle'
+      });
+      return
+      if (vm.usercode != vm.code_msg) {
+        api.toast({
+          msg: '验证码不正确',
+          duration: 1000,
+          location: 'middle'
+        });
+        return
+      }
+    }
+    if (vm.userpassword == '' && vm.isLogin != 11) {
+      // alert("请输入密码")
+      // api.toast({
+      //   msg: '请输入密码',
+      //   duration: 1000,
+      //   location: 'middle'
+      // });
+      layer.open({
+        content: '请输入密码'
+        ,skin: 'msg'
+        ,time: 2 //2秒后自动关闭
+      });
+      return
+    }
+
+    if (vm.userpassword.length < 6 && vm.isLogin != 11) {
+      // alert("密码长度不能少于6位")
+      layer.open({
+        content: '密码长度不能少于6位'
+        ,skin: 'msg'
+        ,time: 2 //2秒后自动关闭
+      });
+      return
+    }
+    console.log(vm.isLogin)
+    if (vm.isLogin != 0) {
+      var value1 = {}
+      var jkurl = ''
+      
+        value1 = {
+          phone: vm.usertel,
+          pwd: vm.userpassword,
+        }
+        jkurl = IPurl + '/login'
+      
+      console.log(JSON.stringify(value1))
+      var index = layer.open({
+        type: 2
+        ,content: '正在登录'
+      });
+      $.ajax({
+        type: "POST",
+        url: jkurl,
+        data: value1,
+        dataType: 'json',
+        success: function (res) {
+          // api.hideProgress();
+          layer,close(index)
+          console.log(typeof res);
+          if (typeof res == "string") {
+            res = JSON.parse(res);
+          }
+          console.log(JSON.stringify(res))
+          if (res.code == 1) {
+           
+            layer.open({
+              content: '登录成功'
+              ,skin: 'msg'
+              ,time: 2 //2秒后自动关闭
+            });
+            
+           setCookie('phone', res.data.phone)
+           setCookie('token', res.data.token)
+           setCookie('usermsg', res.data)
+           setCookie('usertel', vm.usertel)
+           setCookie('userpassword', vm.userpassword)
+            vm.usertel = ''
+            vm.usercode = ''
+            vm.code_msg = ''
+            vm.userpassword = ''
+            vm.userpassword1 = ''
+            setTimeout(function () {
+
+              window.location.href="./order_list.html?token="+res.data.token+'&phone='+res.data.phone+'&st=998123'
+            }, 50);
+          } else {
+            if (res.msg) {
+              
+              layer.open({
+                content: res.msg
+                ,skin: 'msg'
+                ,time: 2 //2秒后自动关闭
+              });
+            } else {
+              
+              layer.open({
+                content: '操作失败'
+                ,skin: 'msg'
+                ,time: 2 //2秒后自动关闭
+              });
+            }
+          }
+
+        },
+        error: function (err) {
+          layer,close(index)
+          layer.open({
+            content: '操作失败'
+            ,skin: 'msg'
+            ,time: 2 //2秒后自动关闭
+          });
+          // api.hideProgress();
+          console.log("banner:" + JSON.stringify(err));
+        }
+      });
+      
+    } else {
+      var value1
+
+      
+      
+      //注册
+      if (vm.userpassword == vm.userpassword1) {
+        value1 = {
+          "phone": vm.usertel,
+          "password": vm.userpassword,
+          affirm_password:vm.userpassword1
+        }
+        console.log(JSON.stringify(value1))
+        // if (vm.zftype != 1) {
+        //   api.toast({
+        //     msg: '请先阅读并同意用户协议',
+        //     duration: 1000,
+        //     location: 'middle'
+        //   });
+        //   return
+        // }
+        $.ajax({
+          type: "POST",
+          url: IPurl + '/register',
+          data: value1,
+          dataType: 'json',
+          success: function (res) {
+            // api.hideProgress();
+
+            console.log(typeof res);
+            if (typeof res == "string") {
+              res = JSON.parse(res);
+            }
+            console.log(JSON.stringify(res))
+            if (res.code == 1) {
+              // api.toast({
+              //   msg: '注册成功',
+              //   duration: 1000,
+              //   location: "middle"
+              // });
+              layer.open({
+                content: '注册成功'
+                ,skin: 'msg'
+                ,time: 2 //2秒后自动关闭
+              });
+              vm.usertel = ''
+              vm.usercode = ''
+              vm.code_msg = ''
+              vm.userpassword = ''
+              vm.userpassword1 = ''
+              vm.isLogin = 1
+            } else {
+              if (res.msg) {
+                // api.toast({
+                //   msg: res.msg,
+                //   duration: 1000,
+                //   location: "middle"
+                // });
+                layer.open({
+                  content:  res.msg
+                  ,skin: 'msg'
+                  ,time: 2 //2秒后自动关闭
+                });
+              } else {
+                // api.toast({
+                //   msg: '操作失败',
+                //   duration: 1000,
+                //   location: "middle"
+                // });
+                layer.open({
+                  content: '操作失败'
+                  ,skin: 'msg'
+                  ,time: 2 //2秒后自动关闭
+                });
+              }
+            }
+
+          },
+          error: function (err) {
+            // api.hideProgress();
+            layer.open({
+                content: '操作失败'
+                ,skin: 'msg'
+                ,time: 2 //2秒后自动关闭
+              });
+            console.log("banner:" + JSON.stringify(err));
+          }
+        });
+      } else {
+        // alert('两次密码不一致')
+        // api.toast({
+        //   msg: '两次密码不一致',
+        //   duration: 1000,
+        //   location: 'middle'
+        // });
+        layer.open({
+          content: '两次密码不一致'
+          ,skin: 'msg'
+          ,time: 2 //2秒后自动关闭
+        });
+      }
+    }
+
+    //修改界面
+
+    //api.addEventListener监听登录成功事件（需执行才可生效）
+
+
+  }
+  
+  function editPassword() { //修改密码
+
+    api.openWin({
+      name: 'editPassword_win',
+      url: '../editPassword/editPassword_win.html'
+    });
+  };
+  function yhxy() { //yhxy
+
+    api.openWin({
+      name: 'yhxy_win',
+      url: '../yhxy/yhxy_win.html'
+    });
+  };
+
+</script>
+
+</html>

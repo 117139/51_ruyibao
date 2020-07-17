@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <title>用户协议</title>
+  <script type="text/javascript" src="../../script/api.js"></script>
+  <script src="../../script/jquery.min.js"></script>
+  <script src="../../script/vue.min.js"></script>
+  <script src="../../script/swiper.min.js"></script>
+  <script src="../../script/vant.js"></script>
+  <script src="../../script/Area.js"></script>
+  <script src="../../script/IPurl.js"></script>
+  <script src="../../script/jump.js"></script>
+  <script src="../../script/layer/layer.js"></script>
+  <!-- <script src="../../script/font/iconfont.js"></script> -->
+
+  <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/swiper.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/class.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/vantIndex.css" />
+  <link rel="stylesheet" href="http://at.alicdn.com/t/font_1218663_avyf5h8t28e.css">
+  <style>
+    html,
+    body {
+      width: 100%;
+      background: #fff;
+    }
+
+    #wrap {
+      width: 100%;
+      display: flex;
+      display: -webkit-flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+
+    .main {
+      width: 100%;
+      padding: 10px 15px 0;
+      box-sizing: border-box;
+    }
+
+    .qsr {
+      width: 100%;
+      height: 40px;
+      font-size: 14px;
+      color: #999999;
+      display: flex;
+      display: -webkit-flex;
+      -ms-align-items: center;
+      align-items: center;
+    }
+
+    .srk {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px;
+      box-sizing: border-box;
+      display: flex;
+      display: -webkit-flex;
+      -ms-align-items: center;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 16px;
+      color: #333;
+      border: 1px solid #e8e8e8;
+
+      border-radius: 4px;
+    }
+
+    .srk>input {
+      flex: 1;
+    }
+
+    .czbtnG {
+      margin: 10px 0 34px;
+      width: 100%;
+      height: 44px;
+      display: flex;
+      display: -webkit-flex;
+      justify-content: space-between;
+      -ms-align-items: center;
+      align-items: center;
+
+    }
+
+    .czbtn {
+      width: 76px;
+      height: 40px;
+      border: 1px solid #e8e8e8;
+      display: flex;
+      display: -webkit-flex;
+      justify-content: center;
+      -ms-align-items: center;
+      align-items: center;
+      border-radius: 4px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .czbtn.cur {
+      color: #fff;
+      background: #f92e51;
+      border: 1px solid #f92e51;
+    }
+
+    .zftype {
+      width: 100%;
+      height: 70px;
+      border-top: 1px solid #eeeeee;
+      padding: 25px 0;
+      display: flex;
+      display: -webkit-flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-bottom: 14px;
+
+    }
+
+    .zftype1 {
+      width: 100%;
+      display: flex;
+      display: -webkit-flex;
+      justify-content: space-between;
+      -ms-align-items: center;
+      align-items: center;
+      font-size: 16px;
+    }
+
+    .duigouG {
+      border: 1px solid #999999;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      justify-content: center;
+      -ms-align-items: center;
+      align-items: center;
+    }
+
+    .zhifubao {
+      font-size: 16px;
+      color: #07a0f8;
+    }
+
+    .wx {
+      font-size: 16px;
+      color: #05c000;
+    }
+
+    .duigouG.cur1 {
+      border: 1px solid #ffa903;
+      background-color: #ffa903;
+    }
+
+    .duigou {
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .subbtn {
+      width: 100%;
+      height: 42px;
+      border-radius: 21px;
+      color: #fff;
+      font-size: 14px;
+      background: #e4ce93;
+      background-size: 100% 42px;
+      display: flex;
+      display: -webkit-flex;
+      justify-content: center;
+      -ms-align-items: center;
+      align-items: center;
+    }
+
+    .subbtn1 {
+      background-color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrap">
+    <div class="main" v-html="xieyi">
+
+    </div>
+  </div>
+  <!--    <script src="../../script/vconsole.min.js"></script>
+<script>
+var vConsole = new VConsole();
+</script> -->
+  <script type="text/javascript">
+
+    var vm
+    var token
+    var phone
+    $(function () {
+      getMsg()
+      // if (getNowCanshu().token) {
+      //   token = getNowCanshu().token
+      //   phone = getNowCanshu().phone
+      //   if (getNowCanshu().id) {
+
+      //     vm.add_id = getNowCanshu().id
+      //     getadd()
+      //   }
+
+      // } else {
+      //   top.window.location = "../login/login_win.html"
+      // }
+    })
+    vm = new Vue({
+      el: '#wrap',
+      data: {
+        xieyi: '',
+        xianzhi: 0
+      },
+      created: function () {
+
+
+      },
+      mounted() {
+
+      },
+      methods: {
+
+
+      }
+    })
+    function getMsg() {
+      ///CmsAgreementController/getList
+      var value1 = {
+
+      }
+      console.log(JSON.stringify(value1))
+      $.ajax({
+        type: "get",
+        url: IPurl + '/agreement',
+        data: value1,
+        dataType: 'json',
+        success: function (res) {
+          // api.hideProgress();
+
+
+          console.log(res);
+          console.log(JSON.stringify(res));
+          if (typeof res == "string") {
+            res = JSON.parse(res);
+          }
+          if (res.code == 1) {
+            vm.xieyi = res.data.content
+          } else {
+            if (res.msg) {
+
+              layer.msg(res.msg)
+            } else {
+
+              layer.msg('操作失败')
+            }
+          }
+
+
+          // vm.cate = res.data.cate
+          // vm.film = res.data.product.data
+
+        },
+        error: function (err) {
+          layer.msg('操作失败')
+          console.log("sendmsg:" + JSON.stringify(err));
+        }
+      });
+    }
+
+  </script>
+</body>
+
+</html>

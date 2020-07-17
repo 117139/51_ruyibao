@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no" />
+		<title>我的</title>
+		<script type="text/javascript" src="./script/api.js"></script>
+		<script src="./script/jquery.min.js"></script>
+		<script src="./script/jquery-weui.min.js"></script>
+		<script src="./script/vue.min.js"></script>
+		<script src="./script/swiper.min.js"></script>
+		<script src="./script/vant.js"></script>
+		<script src="./script/IPurl.js"></script>
+		<script src="./script/jump.js"></script>
+		<script src="./script/layer/layer.js"></script>
+		<!-- <script src="./script/font/iconfont.js"></script> -->
+
+		<link rel="stylesheet" type="text/css" href="./css/api.css" />
+		<link rel="stylesheet" type="text/css" href="./css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="./css/style.css" />
+		<link rel="stylesheet" type="text/css" href="./css/class.css" />
+		<link rel="stylesheet" type="text/css" href="./css/vantIndex.css" />
+		<style>
+			html,
+			body,
+			.flex-con {
+				background: #fff;
+			}
+			.flex-con{
+				background-image: url(./image/fwbg_bg.jpg);
+				-webkit-background-size: 100% auto;
+				background-size: 100% auto;
+				background-repeat: no-repeat;
+			}
+
+			.my_box {
+				width: 100%;
+				height: 112px;
+				/* background: linear-gradient(-41deg, rgba(14, 90, 243, 0.73), rgba(14, 90, 243, 0.73)); */
+			}
+
+			.my_box1 {
+				width: 100%;
+				padding: 0 15px;
+				height: 43px;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				position: relative;
+			}
+			.fw_box{
+				background: #fff;
+				width: 100%;
+				box-shadow:0px -2px 5px 0px rgba(0, 0, 0, 0.1);
+				border-radius:5px;
+				padding: 0 11px;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.fw_li{
+				width: 100%;
+				min-height: 53px;
+				border-bottom: 1px solid #DFDFDF;
+				font-size: 15px;
+				color: #333;
+			}
+			.fwli_name{
+				height: 53px;
+				display: flex;align-items: center;
+			}
+			.fwli_int{
+				height: 53px;
+				display: flex;align-items: center;
+				text-align: right;
+			}
+			.fw_i{
+				align-items: center;
+				margin-left: 5px;
+				font-size: 13px;
+				color: #666;
+			}
+			.fw_i i{
+				font-size: 13px;
+			}
+			@media screen and (max-width: 330px) {}
+		</style>
+	</head>
+
+	<body>
+		<div id="wrap" class="wrap flex-wrap flex-vertical">
+			<div class="flex-con">
+				<div class="my_box"></div>
+				<div class="my_box1">
+					<form class="fw_box">
+						<div class="fw_li disflex">
+							<div class="fwli_name">姓名</div>
+							<input class="fwli_int flex_1" type="text" name="name" placeholder="请输入姓名">
+						</div>
+						<div class="fw_li disflex">
+							<div class="fwli_name">手机号</div>
+							<input class="fwli_int flex_1" type="number" name="phone" placeholder="请输入手机号">
+						</div>
+						<div class="fw_li disflex">
+							<div class="fwli_name">身份证号</div>
+							<input class="fwli_int flex_1" type="text" name="cardID" placeholder="请输入身份证号">
+						</div>
+						<div class="fw_li disflex"  @click="showPicker_type=true">
+							<div class="fwli_name">办理事项</div>
+							<input class="fwli_int flex_1" type="text" name="arg1" placeholder="请选择" disabled="" :value="banli.str">
+							<div class="fw_i disflex"><i class="iconfont iconnext-copy"></i></div>
+						</div>
+					</form>
+				</div>
+				
+			</div>
+			<van-popup v-model="showPicker_type" position="bottom" lock-scroll="true">
+			  <van-picker show-toolbar :columns="youfei_list" value-key="str" @cancel="showPicker_type = false"
+			    @confirm="onConfirm_type" />
+			</van-popup>
+			<div id="footer" class="border-t">
+				<ul class="flex-wrap">
+					<li tapmode="hover" class="flex-con" @click="jump('./index.html?token='+token+'&phone='+phone+'&st=998123');">首页</li>
+					<li tapmode="hover" class="flex-con active" @click="jump('./fuwu.html?token='+token+'&phone='+phone+'&st=998123');">服务办事</li>
+					<li tapmode="hover" class="flex-con" @click="jump('./order_list.html?token='+token+'&phone='+phone+'&st=998123');">订单</li>
+					<li tapmode="hover" class="flex-con" @click="jump('./my.html?token='+token+'&phone='+phone+'&st=998123');">我的</li>
+				</ul>
+			</div>
+		</div>
+		<!--  <script src="./script/vconsole.min.js"></script>
+<script>
+ 
+</script> -->
+		<script>
+			var vm;
+			var token
+			var phone
+			var loading = false
+			$(function() {
+				
+				if (getNowCanshu().token) {
+					token = getNowCanshu().token
+					phone = getNowCanshu().phone
+				} else {
+					top.window.location = "./login.html"
+				}
+			})
+
+
+			vm = new Vue({
+				el: "#wrap",
+				data: {
+					cysp_cur: 1, //视频分类
+					ss_type: 0,
+					showPicker_type: false,
+					youfei_list: [
+						{str:1},
+						{str:2},
+						{str:3},
+						{str:4},
+					],
+					banli:'',
+					xz_idx: -1,
+				},
+				created: function() {},
+				methods: {
+					onConfirm_type: function (value) {
+					  this.banli = value
+					  console.log(JSON.stringify(value))
+					  
+					
+					  this.showPicker_type = false
+					  // fnInitEvent()
+					  // getmoney()
+					},
+				}
+			});
+
+
+
+			function qh_cysp_cur(num) {
+				if (vm.cysp_cur == num) {
+					return
+				}
+				$('.order_li_d1').removeClass("cur")
+				$('.xz_all').removeClass("cur")
+				vm.all_money = 0
+				vm.all_money_yf = 0
+				vm.cysp_cur = num
+				vm.pageindex = 1
+				vm.data_list = new Array()
+				loading = false
+				getdatalist()
+			}
+
+
+
+			//获取兼职
+			function getdatalist() {
+				if (loading == true) {
+					return
+				} else {
+					loading = true
+				}
+				var index = layer.load(1, {
+					shade: [0.1, '#000'] //0.1透明度的白色背景
+				});
+				var jkurl = IPurl + '/order/my'
+				var value1 = {
+					page: vm.pageindex,
+					size: vm.pagesize,
+					token: token, //测试
+					status: vm.cysp_cur
+				}
+				console.log(jkurl)
+				console.log(JSON.stringify(value1))
+
+				$.ajax({
+					type: "get",
+					url: jkurl,
+					data: value1,
+					dataType: 'json',
+					success: function(res) {
+						// api.hideProgress();
+						layer.close(index)
+						setTimeout(function() {
+							loading = false
+						}, 1000)
+						console.log(res);
+						// console.log(JSON.stringify(res));
+						if (typeof res == "string") {
+							res = JSON.parse(res);
+						}
+						if (res.code == -1) {
+							zh_logout()
+							return
+						}
+						if (res.code == 1) {
+							if (vm.pageindex == 1) {
+								vm.data_list = res.data;
+								vm.pageindex++
+								// console.log(res.data)
+								// console.log(JSON.stringify(vm.data_list))
+							} else {
+								if (res.data.length == 0) {
+									layer.msg('暂无更多数据');
+									return
+								}
+								vm.data_list = vm.data_list.concat(res.data)
+								vm.pageindex++
+							}
+						} else {
+							if (res.msg) {
+								layer.msg(res.msg);
+							} else {
+								layer.msg('操作失败');
+							}
+						}
+					},
+					error: function(err) {
+						setTimeout(function() {
+							loading = false
+						}, 1000)
+
+						layer.close(index)
+						layer.msg('操作失败');
+						console.log("getdata_list:" + JSON.stringify(err));
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

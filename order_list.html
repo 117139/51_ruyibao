@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no" />
+		<title>订单</title>
+		<script type="text/javascript" src="./script/api.js"></script>
+		<script src="./script/jquery.min.js"></script>
+		<script src="./script/jquery-weui.min.js"></script>
+		<script src="./script/vue.min.js"></script>
+		<script src="./script/swiper.min.js"></script>
+		<script src="./script/vant.js"></script>
+		<script src="./script/IPurl.js"></script>
+		<script src="./script/jump.js"></script>
+		<script src="./script/layer/layer.js"></script>
+		<!-- <script src="./script/font/iconfont.js"></script> -->
+
+		<link rel="stylesheet" type="text/css" href="./css/api.css" />
+		<link rel="stylesheet" type="text/css" href="./css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="./css/style.css" />
+		<link rel="stylesheet" type="text/css" href="./css/class.css" />
+		<link rel="stylesheet" type="text/css" href="./css/vantIndex.css" />
+		<link rel="stylesheet" href="http://at.alicdn.com/t/font_1218663_ehxsz3ncvrl.css" />
+		<style>
+			body,.flex-con {
+				background:#fff;
+			}
+
+			/* tab */
+			.cysp_tab {
+				width: 100%;
+				white-space: nowrap;
+				overflow: auto;
+				padding: 0 10px;
+				margin-bottom: 10px;
+				border-bottom: 1px solid #eee;
+				position: fixed;
+				top: 0;
+				max-width: 750px;
+				background: #fff;
+				z-index: 999;
+				color: #999999;
+			}
+
+			.cysp_tab div {
+				display: inline-block;
+				padding: 12px 0;
+				border-bottom: 2px solid transparent;
+			}
+
+			.cysp_tab div.cur {
+				color: #3497FA;
+				border-bottom: 2px solid #3497FA;
+			}
+
+			/* .cysp_tab div+div {
+      margin-left: 35px;
+    } */
+
+			/* li */
+			.main {
+				background: #fff;
+				width: 100%;
+				min-height: 100%;
+				padding: 62px 15px 0px 15px;
+				box-sizing: border-box;
+			}
+
+			.data_null {
+				width: 100%;
+			}
+
+			/* order_list */
+			.order_list {
+				width: 100%;
+			}
+
+			.order_li {
+				width: 100%;
+				padding: 10px;
+				height: 85px;
+				background: rgba(255, 255, 255, 1);
+				box-shadow: 0px 0px 10px 0px rgba(34, 23, 20, 0.1);
+				border-radius: 5px;
+				margin-bottom: 13px;
+				cursor: pointer;
+			}
+
+			.order_r {
+				min-width: 80px;
+				flex-direction: column;
+				justify-content: space-around;
+				align-items: flex-end;
+			}
+
+			.li_pri {
+				color: #FB4848;
+				font-size: 11px;
+			}
+
+			.li_pri span {
+				font-size: 16px;
+			}
+
+			.li_btn {
+				width: 75px;
+				height: 23px;
+				font-size: 14px;
+				line-height: 16px;
+				background: rgba(52, 151, 250, 1);
+				box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+				border-radius: 23px;
+				align-items: center;
+				justify-content: center;
+				color: #fff;
+				cursor: pointer;
+			}
+
+			.li_name {
+				font-size: 15px;
+				color: #333;
+				font-weight: bold;
+			}
+
+			.li_name span {
+				font-size: 11px;
+				background: linear-gradient(-47deg, rgba(253, 98, 111, 1), rgba(251, 72, 72, 1));
+				box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+				border-radius: 14px;
+				padding: 2px 5px;
+				margin-left: 10px;
+				color: #fff;
+			}
+
+			.li_time {
+				margin-top: 15px;
+				font-size: 12px;
+				color: #666;
+			}
+
+			@media screen and (max-width: 330px) {
+				.order_li_img {
+					width: 70px;
+					height: 70px;
+					margin-right: 5px;
+				}
+
+				.main {
+					padding: 62px 10px 0px;
+					box-sizing: border-box;
+				}
+
+				.order_li_img {
+					width: 70px;
+					height: 70px;
+					margin-right: 5px;
+				}
+			}
+
+			.getmore {
+				width: 100px;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				border: 1px solid #eee;
+				margin: 10px auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="wrap" class="wrap flex-wrap flex-vertical">
+			<div class="flex-con">
+				<div class="cysp_tab boxsiz disflex ju_a">
+					<div :class="{'cur':cysp_cur==1}" @click="qh_cysp_cur(1)">全部订单</div>
+					<div :class="{'cur':cysp_cur==2}" @click="qh_cysp_cur(2)">待支付</div>
+					<div :class="{'cur':cysp_cur==3}" @click="qh_cysp_cur(3)">待确认</div>
+					<div :class="{'cur':cysp_cur==4}" @click="qh_cysp_cur(4)">已支付</div>
+				</div>
+				<div v-if="data_list.length==0" class="data_null_box"><img class="data_null" src="./image/null.jpg" alt="">
+				</div>
+				<div v-else class="main boxsiz">
+					<div class="order_list">
+						<div class="order_li boxsiz disflex" v-for="(item,index) in data_list">
+							<div class="order_msg flex_1">
+								<div class="li_name disflex">张小龙的参保订单<span>待支付</span></div>
+								<div class="li_time">2020-07-01</div>
+							</div>
+							<div class="order_r disflex">
+								<div class="li_pri">￥<span>2020.00</span></div>
+								<div class="li_btn disflex">去支付</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="footer" class="border-t">
+				<ul class="flex-wrap">
+					<li tapmode="hover" class="flex-con" @click="jump('./index.html?token='+token+'&phone='+phone+'&st=998123');">首页</li>
+					<li tapmode="hover" class="flex-con" @click="jump('./fuwu.html?token='+token+'&phone='+phone+'&st=998123');">服务办事</li>
+					<li tapmode="hover" class="flex-con active" @click="jump('./order_list.html?token='+token+'&phone='+phone+'&st=998123');">订单</li>
+					<li tapmode="hover" class="flex-con" @click="jump('./my.html?token='+token+'&phone='+phone+'&st=998123');">我的</li>
+				</ul>
+			</div>
+		</div>
+		<!--  <script src="./script/vconsole.min.js"></script>
+<script>
+ 
+</script> -->
+		<script>
+			var vm;
+			var token
+			var phone
+			var loading=false
+			$(function() {
+				$('.flex-con').scroll(
+					
+					function() {
+						var scrollTop = $(this).scrollTop();
+						var scrollHeight = $('.main').height();
+						var windowHeight = $(this).height();
+						console.log(scrollTop+windowHeight-scrollHeight)
+						if (scrollTop + windowHeight-72>= scrollHeight) {
+							// 此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+							console.log("弹弹弹");
+							if(loading==true){
+								return
+							}
+							getdatalist()
+						}
+					});
+				if (getNowCanshu().token) {
+					token = getNowCanshu().token
+					phone = getNowCanshu().phone
+				} else {
+					top.window.location = "./login.html"
+				}
+				getdatalist()
+			})
+
+
+			vm = new Vue({
+				el: "#wrap",
+				data: {
+					cysp_cur: 1, //视频分类
+					ss_type: 0,
+					data_list: [],
+					pageindex: 1,
+					pagesize: 20,
+					pageSize: 8,
+					pageIndex: 1,
+					isEnd: JSON.parse(sessionStorage.getItem('isEnd')) || false, // 是否有更多
+					isNav: false,
+					token: getUrlParam().token || '',
+					all_money: 0,
+					all_money_yf: 0,
+
+					showPicker_type: false,
+					youfei_list: [],
+					xz_idx: -1,
+					riben: 0,
+					huilv: 0,
+					gj_youfei: ''
+				},
+				created: function() {},
+				methods: {
+					onConfirm_type: function(value) {
+						this.gj_youfei = value
+						console.log(JSON.stringify(value))
+						var guoji = +value.price * 1
+						if (guoji > 0) {
+
+						} else {
+							guoji = 0
+						}
+						$('#gjf_val_' + vm.xz_idx).html('国际邮费：' + guoji)
+						var riben = vm.riben * 1
+						if (riben > 0) {
+
+						} else {
+							riben = 0
+						}
+						var snum = riben + guoji
+						snum = snum * vm.huilv
+						if (snum > 0) {
+							snum = snum.toFixed(2)
+						} else {
+							snum = 0
+						}
+						$('#xz_' + vm.xz_idx).data('youfei', snum)
+
+						$('#dzf_' + vm.xz_idx).data('youfei', snum)
+						var gjtype = value.str
+						gjtype = gjtype.split(':')
+						$('#xz_' + vm.xz_idx).data('gjtype', gjtype[0])
+						$('#dzf_' + vm.xz_idx).data('gjtype', gjtype[0])
+
+						console.log(gjtype[0])
+						$('#showyf_' + vm.xz_idx).html(snum)
+
+						this.showPicker_type = false
+						getmoney()
+					},
+				}
+			});
+
+
+
+			function qh_cysp_cur(num) {
+				if (vm.cysp_cur == num) {
+					return
+				}
+				$('.order_li_d1').removeClass("cur")
+				$('.xz_all').removeClass("cur")
+				vm.all_money = 0
+				vm.all_money_yf = 0
+				vm.cysp_cur = num
+				vm.pageindex = 1
+				vm.data_list=new Array()
+				loading=false
+				getdatalist()
+			}
+
+
+			function xz_fuc_yf(obj) {
+				var postage = $(obj).data('postage') //是否有邮费
+				var address = $(obj).data('address') //是否有地址
+				var gjtype = $(obj).data('gjtype') //是否有方式
+				var oid = $(obj).data('oid') //id
+
+				if (!address) {
+					// api.toast({
+					//   msg: '订单未选择地址，无法进行选择',
+					//   duration: 2000,
+					//   location: 'middle'
+					// });
+					layer.open({
+						content: '订单未选择地址，无法进行选择',
+						skin: 'msg',
+						time: 2 //2秒后自动关闭
+					});
+					return
+				}
+				if (!postage && !gjtype) {
+					// api.toast({
+					//   msg: '订单未选择邮费，无法进行选择',
+					//   duration: 2000,
+					//   location: 'middle'
+					// });
+					layer.open({
+						content: '订单未选择邮费，无法进行选择',
+						skin: 'msg',
+						time: 2 //2秒后自动关闭
+					});
+					return
+				}
+				$(obj).toggleClass('cur')
+				var all = true
+				if ($(obj).hasClass('cur')) {
+
+					$(".order_li_d1").each(function() {
+
+						if ($(this).hasClass('cur')) {
+
+						} else {
+							all = false
+						}
+
+
+					});
+					if (all) {
+						$('.xz_all').addClass('cur')
+					} else {
+						$('.xz_all').removeClass('cur')
+					}
+
+				} else { //不全选
+					$('.xz_all').removeClass('cur')
+				}
+				getmoney()
+			}
+
+			function xz_fuc_all_yf(obj) {
+				$(obj).toggleClass('cur')
+				$(".order_li_d1").each(function() {
+
+					var postage = $(this).data('postage') //是否有邮费
+					var address = $(this).data('address') //是否有地址
+					var gjtype = $(this).data('gjtype') //是否有方式
+					var oid = $(this).data('oid') //id
+
+					if (!address) {
+						layer.open({
+							content: '存在未选择地址的订单，无法进行全选',
+							skin: 'msg',
+							time: 2 //2秒后自动关闭
+						});
+						// api.toast({
+						//   msg: '存在未选择地址的订单，无法进行全选',
+						//   duration: 2000,
+						//   location: 'middle'
+						// });
+						return
+					}
+					if (!postage && !gjtype) {
+						layer.open({
+							content: '存在未选择邮费的订单，无法进行全选',
+							skin: 'msg',
+							time: 2 //2秒后自动关闭
+						});
+						// api.toast({
+						//   msg: '存在未选择邮费的订单，无法进行全选',
+						//   duration: 2000,
+						//   location: 'middle'
+						// });
+						return
+					}
+
+
+				});
+				if ($(obj).hasClass('cur')) {
+					$('.order_li_d1').addClass("cur")
+				} else {
+					$('.order_li_d1').removeClass("cur")
+				}
+
+				getmoney()
+			}
+
+			function getmoney() {
+				var money = 0
+				$(".order_li_d1").each(function() {
+
+					if ($(this).hasClass('cur')) {
+						// arr.push($(this).data('type'))
+						console.log($(this).data('pri'))
+						if (vm.cysp_cur == 2) {
+							var pri = $(this).data('pri') * 1
+						} else {
+							var pri = $(this).data('youfei') * 1
+						}
+
+						console.log(pri)
+						money += pri
+						console.log(money)
+					}
+				});
+				money = money.toFixed(2)
+				if (vm.cysp_cur == 2) {
+					vm.all_money = money
+					console.log(vm.all_money)
+				} else {
+					vm.all_money_yf = money
+					console.log(vm.all_money_yf)
+				}
+
+			}
+			//获取兼职
+			function getdatalist() {
+				if(loading==true){
+					return
+				}else{
+					loading=true
+				}
+				var index = layer.load(1, {
+					shade: [0.1, '#000'] //0.1透明度的白色背景
+				});
+				var jkurl = IPurl + '/order/my'
+				var value1 = {
+					page: vm.pageindex,
+					size: vm.pagesize,
+					token: token, //测试
+					status: vm.cysp_cur
+				}
+				console.log(jkurl)
+				console.log(JSON.stringify(value1))
+				
+				$.ajax({
+					type: "get",
+					url: jkurl,
+					data: value1,
+					dataType: 'json',
+					success: function(res) {
+						// api.hideProgress();
+						layer.close(index)
+						setTimeout(function(){
+							loading=false
+						},1000)
+						console.log(res);
+						// console.log(JSON.stringify(res));
+						if (typeof res == "string") {
+							res = JSON.parse(res);
+						}
+						if (res.code == -1) {
+							zh_logout()
+							return
+						}
+						if (res.code == 1) {
+							if (vm.pageindex == 1) {
+								vm.data_list = res.data;
+								vm.pageindex++
+								// console.log(res.data)
+								// console.log(JSON.stringify(vm.data_list))
+							} else {
+								if (res.data.length == 0) {
+									layer.msg('暂无更多数据');
+									return
+								}
+								vm.data_list = vm.data_list.concat(res.data)
+								vm.pageindex++
+							}
+						} else {
+							if (res.msg) {
+								layer.msg(res.msg);
+							} else {
+								layer.msg('操作失败');
+							}
+						}
+					},
+					error: function(err) {
+						setTimeout(function(){
+							loading=false
+						},1000)
+						
+						layer.close(index)
+						layer.msg('操作失败');
+						console.log("getdata_list:" + JSON.stringify(err));
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>
